@@ -1,0 +1,358 @@
+"""  Top level schema object.  """
+schema {
+	query: Query
+	mutation: Mutation
+}
+
+"""  Root Query type  """
+type Query {
+"""  Get the identified instance of the Address  """
+	addressById(id: ID): Address
+"""  Get the set of Address  """
+	addresses(street: String, town: String, country: String, currentlyLivesAtCount: Integer): [Address]
+"""  Get the identified instance of the Librarian  """
+	librarianById(id: ID): Librarian
+"""  Get the set of Librarian  """
+	librarians: [Librarian]
+"""  Get the identified instance of the MediaCopyOrder  """
+	mediaCopyOrderById(id: ID): MediaCopyOrder
+"""  Get the set of MediaCopyOrder  """
+	mediaCopyOrders(copyCount: Integer, dateOrdered: Date): [MediaCopyOrder]
+"""  Get the identified instance of the MediaCopy  """
+	mediaCopyById(id: ID): MediaCopy
+"""  Get the set of MediaCopy  """
+	mediaCopies(dateAcquired: Date): [MediaCopy]
+"""  Get the identified instance of the MediaTitle  """
+	mediaTitleById(id: ID): MediaTitle
+"""  Get the set of MediaTitle  """
+	mediaTitles(limit: Int, offset: Int, title: String, isbn: String, author: String, mediaType: MediaType, rating: Integer, price: Decimal, description: String): [MediaTitle]
+"""  Get the identified instance of the Reservation  """
+	reservationById(id: ID): Reservation
+"""  Get the set of Reservation  """
+	reservations(dateReserved: Date): [Reservation]
+"""  Get the identified instance of the JuniorBorrower  """
+	juniorBorrowerById(id: ID): JuniorBorrower
+"""  Get the set of JuniorBorrower  """
+	juniorBorrowers(dob: Date): [JuniorBorrower]
+"""  Get the identified instance of the AdultBorrower  """
+	adultBorrowerById(id: ID): AdultBorrower
+"""  Get the set of AdultBorrower  """
+	adultBorrowers: [AdultBorrower]
+"""  Get the identified instance of the Loan  """
+	loanById(id: ID): Loan
+"""  Get the set of Loan  """
+	loans(dateBorrowed: Date, dateReturned: Date): [Loan]
+}
+
+"""  Root Mutation type  """
+type Mutation {
+"""  Create a new Address and return the new instance  """
+	createAddress(input: AddressInput): Address
+"""  Create a new AdultBorrower and return the new instance  """
+	createAdultBorrower(input: AdultBorrowerInput): AdultBorrower
+"""  Create a new Reservation and return the new instance  """
+	createReservation(input: ReservationInput): Reservation
+"""  Create a new MediaTitle and return the new instance  """
+	createMediaTitle(input: MediaTitleInput): MediaTitle
+"""  Create a new MediaCopy and return the new instance  """
+	createMediaCopy(input: MediaCopyInput): MediaCopy
+"""  Create a new MediaCopyOrder and return the new instance  """
+	createMediaCopyOrder(input: MediaCopyOrderInput): MediaCopyOrder
+"""  Create a new Librarian and return the new instance  """
+	createLibrarian(input: LibrarianInput): Librarian
+"""  Create a new JuniorBorrower and return the new instance  """
+	createJuniorBorrower(input: JuniorBorrowerInput): JuniorBorrower
+"""  Create a new Loan and return the new instance  """
+	createLoan(input: LoanInput): Loan
+}
+
+"""  The abstract concept of a Borrower. Actual Borrowers must be either Adult or Junior.  """
+union Borrower = JuniorBorrower | AdultBorrower
+
+"""  Node Description  """
+interface Node {
+	"""  The identifier of this object  """
+	id: ID!
+}
+
+"""  Represents a Person object.
+  """
+interface Person {
+	surname: String!
+	givenName: String!
+	"""  currently lives at this Address.  """
+	currentlyLivesAtAddress: Address!
+}
+
+"""  An Address that Borrowers currently or previously have lived at.  """
+type Address implements Node {
+	"""  The identifier of this object  """
+	id: ID!
+	country: String!
+	currentlyLivesAtCount: Integer!
+	"""  is currently lived at by this set of Persons.  """
+	isCurrentlyLivedAtByPersons: [Person]!
+	street: String!
+	town: String!
+}
+
+"""  A Borrower who can borrow any media and can vouch for Junior Borrowers.  """
+type AdultBorrower implements Borrower & Node & Person {
+	"""  The identifier of this object  """
+	id: ID!
+	"""  borrowed this set of MediaCopies.  """
+	borrowedMediaCopies: [MediaCopy]
+	"""  currently lives at this Address.  """
+	currentlyLivesAtAddress: Address!
+	givenName: String!
+	"""  The set of Loans.  """
+	loans: [MediaCopy]
+	"""  previously lived at this set of Addresses.  """
+	previouslyLivedAtAddresses: [Address]
+	"""  The set of Reservations.  """
+	reservations(first: Int, after: String): [MediaTitleConnection]
+	"""  reserved this set of MediaTitles.  """
+	reservedMediaTitles(first: Int, after: String): [BorrowerReservedMediaTitleConnection]
+	surname: String!
+	"""  vouched for this set of JuniorBorrowers.  """
+	vouchedForJuniorBorrowers: [JuniorBorrower]
+}
+
+"""  The **BorrowerReservedMediaTitleConnection** represents a paged set of Edges for the **Borrower** that *reserved* a **MediaTitle**   """
+type BorrowerReservedMediaTitleConnection {
+	"""  The PageInfo Field  """
+	page: PageInfo!
+	"""  The edges Field  """
+	edges: [BorrowerReservedMediaTitleEdge]!
+}
+
+"""  Type for a **Borrower** *reserved* **MediaTitle** Edge. single **Reservation** is included.   """
+type BorrowerReservedMediaTitleEdge {
+	"""  A cursor to the last **MediaTitle** node retrieved  """
+	cursor: String!
+	"""  The **Borrower** that reserved this **MediaTitle**   """
+	node: MediaTitle!
+	"""  An single **Reservation** for this **Borrower** to **MediaTitle** Edge  """
+	reservation: Reservation
+}
+
+"""  A Borrower who cannot borrow certain Media Titles and a limited number of Media Copies.  """
+type JuniorBorrower implements Borrower & Node & Person {
+	"""  The identifier of this object  """
+	id: ID!
+	"""  borrowed this set of MediaCopies.  """
+	borrowedMediaCopies: [MediaCopy]
+	"""  currently lives at this Address.  """
+	currentlyLivesAtAddress: Address!
+	"""  The Date of Birth (DOB) of this Junior Borrower  """
+	dob: Date!
+	givenName: String!
+	"""  The set of Loans.  """
+	loans: [MediaCopy]
+	"""  previously lived at this set of Addresses.  """
+	previouslyLivedAtAddresses: [Address]
+	"""  The set of Reservations.  """
+	reservations(first: Int, after: String): [MediaTitleConnection]
+	"""  reserved this set of MediaTitles.  """
+	reservedMediaTitles(first: Int, after: String): [BorrowerReservedMediaTitleConnection]
+	surname: String!
+	"""  was vouched for by this AdultBorrower.  """
+	wasVouchedForByAdultBorrower: AdultBorrower!
+}
+
+"""  A Librarian who can order copies of MediaTitles and may act as a manager or mentor for other librarians.  """
+type Librarian implements Node & Person {
+	"""  The identifier of this object  """
+	id: ID!
+	"""  currently lives at this Address.  """
+	currentlyLivesAtAddress: Address!
+	givenName: String!
+	"""  is managed by this Librarian.  """
+	isManagedBy: Librarian
+	"""  is mentored by this Librarian.  """
+	isMentoredBy: Librarian
+	"""  manages this set of Librarians.  """
+	manages: [Librarian]
+	"""  mentors this set of Librarians.  """
+	mentors: [Librarian]
+	"""  placed this set of MediaCopyOrders.  """
+	placedMediaCopyOrders: [MediaCopyOrder]
+	surname: String!
+}
+
+"""  The Loan of a specific Media Copy  """
+type Loan implements Node {
+	"""  The identifier of this object  """
+	id: ID!
+	"""  was borrowed by this Borrower.  """
+	borrower: Borrower!
+	dateBorrowed: Date!
+	dateReturned: Date
+	"""  borrowed this MediaCopy.  """
+	mediaCopy: MediaCopy!
+}
+
+"""  An actual copy of a MediaTitle that can be borrowed.  """
+type MediaCopy {
+	dateAcquired: Date!
+	"""  The set of Loans.  """
+	loans: [Borrower]
+	"""  null this MediaTitle.  """
+	mediaTitle(first: Int, after: String): MediaTitleConnection
+	"""  was borrowed by this set of Borrowers.  """
+	wasBorrowedByBorrowers: [Borrower]
+	"""  was ordered by this MediaCopyOrder.  """
+	wasOrderedByMediaCopyOrder: MediaCopyOrder!
+}
+
+"""  Represents a Media Copy Order objectwhich implements the Node Interfaces.
+  """
+type MediaCopyOrder implements Node {
+	"""  The identifier of this object  """
+	id: ID!
+	copyCount: Integer!
+	dateOrdered: Date!
+	"""  order by this Librarian.  """
+	librarian: Librarian
+	"""  was order for this set of MediaCopies.  """
+	wasOrderForMediaCopies: [MediaCopy]!
+}
+
+"""  Details of a Media Title, such as a Book or Movie. This is distinct from a Media Copy which is a particular   """
+type MediaTitle implements Node {
+	"""  The identifier of this object  """
+	id: ID!
+	author: String!
+	description: String!
+	"""  is held as this set of MediaCopies.  """
+	isHeldAsMediaCopies: [MediaCopy]!
+	isbn: String!
+	mediaType: MediaType!
+	price: Decimal!
+	rating: Integer!
+	"""  The set of Reservations.  """
+	reservations: [Borrower]
+	title: String!
+	"""  was reserved by this set of Borrowers.  """
+	wasReservedByBorrowers: [Borrower]
+}
+
+"""  The **MediaTitleConnection** represents a paged set of Edges for the **MediaTitle** for a **Reservation**   """
+type MediaTitleConnection {
+	"""  The PageInfo Field  """
+	page: PageInfo!
+	"""  The edges Field  """
+	edges: [MediaTitleEdge]!
+}
+
+"""  Type for a **MediaTitle** and a **Reservation**   """
+type MediaTitleEdge {
+	"""  A cursor to the last **MediaTitle** node retrieved  """
+	cursor: String!
+	"""  **MediaTitle** for a **Reservation**   """
+	node: MediaTitle!
+}
+
+"""  PageInfo description  """
+type PageInfo {
+	"""  hasPreviousPage description  """
+	hasPreviousPage: Boolean!
+	"""  hasNextPage description  """
+	hasNextPage: Boolean!
+	"""  startCursor description  """
+	startCursor: String!
+	"""  endCursor description  """
+	endCursor: String!
+}
+
+"""  The Reservation of a Media Title, independent of which actual copy is subsequently loaned.  """
+type Reservation implements Node {
+	"""  The identifier of this object  """
+	id: ID!
+	"""  was reserved by this Borrower.  """
+	borrower: Borrower!
+	dateReserved: Date!
+	"""  reserved this MediaTitle.  """
+	mediaTitle(first: Int, after: String): MediaTitleConnection!
+}
+
+"""  An Address that Borrowers currently or previously have lived at.  """
+input AddressInput {
+	street: String!
+	town: String!
+	country: String!
+	currentlyLivesAtCount: Integer!
+}
+
+"""  A Borrower who can borrow any media and can vouch for Junior Borrowers.  """
+input AdultBorrowerInput {
+	surname: String!
+	givenName: String!
+}
+
+"""  A Borrower who cannot borrow certain Media Titles and a limited number of Media Copies.  """
+input JuniorBorrowerInput {
+	surname: String!
+	givenName: String!
+	"""  The Date of Birth (DOB) of this Junior Borrower  """
+	dob: Date!
+}
+
+"""  A Librarian who can order copies of MediaTitles and may act as a manager or mentor for other librarians.  """
+input LibrarianInput {
+	surname: String!
+	givenName: String!
+}
+
+"""  The Loan of a specific Media Copy  """
+input LoanInput {
+	dateBorrowed: Date!
+	dateReturned: Date
+}
+
+"""  An actual copy of a MediaTitle that can be borrowed.  """
+input MediaCopyInput {
+	dateAcquired: Date!
+}
+
+"""  Represents a Media Copy Order object.
+  """
+input MediaCopyOrderInput {
+	copyCount: Integer!
+	dateOrdered: Date!
+}
+
+"""  Details of a Media Title, such as a Book or Movie. This is distinct from a Media Copy which is a particular   """
+input MediaTitleInput {
+	title: String!
+	isbn: String!
+	author: String!
+	mediaType: MediaType!
+	rating: Integer!
+	price: Decimal!
+	description: String!
+}
+
+"""  The Reservation of a Media Title, independent of which actual copy is subsequently loaned.  """
+input ReservationInput {
+	dateReserved: Date!
+}
+
+"""  The types of MediaTitle that the library holds.  """
+enum MediaType {
+	BOOK
+	VIDEO
+	AUDIO
+}
+
+"""  An ISO 8601 standard representation of a date.  """
+scalar Date
+
+"""  Represents decimal numbers which can include fractions of numbers; as opposed to the Integer type. Decimals are often called floating-point numbers in programming languages.  """
+scalar Decimal
+
+"""  A whole number, as opposed to a Decimal which can include fractional data.   """
+scalar Integer
+
+"""  A sequence of characters.  """
+scalar String
