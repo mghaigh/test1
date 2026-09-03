@@ -1,0 +1,68 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://telicent.io/specs/canonical/library/media-title.schema.json",
+    "copyright": "Copyright © 2026 Telicent Ltd",
+    "description": "Details of a Media Title, such as a Book or Movie. This is distinct from a Media Copy which is a particular ",
+    "title": "Media Title",
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string"
+        },
+        "isbn": {
+            "type": "string"
+        },
+        "author": {
+            "type": "string"
+        },
+        "media_type": {
+            "$ref": "media-type.schema.json"
+        },
+        "rating": {
+            "type": "integer"
+        },
+        "price": {
+            "type": "number"
+        },
+        "description": {
+            "type": "string"
+        },
+        "wasReservedByBorrowers": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a Borrower object",
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "reservations": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a Reservation object",
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "isHeldAsMediaCopies": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a MediaCopy object",
+                "type": "string",
+                "format": "uri"
+            }
+        }
+    },
+    "required": [
+        "title",
+        "isbn",
+        "author",
+        "media_type",
+        "rating",
+        "price",
+        "description",
+        "isHeldAsMediaCopies"
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://telicent.io/specs/canonical/library/adult-borrower.schema.json",
+    "copyright": "Copyright © 2026 Telicent Ltd",
+    "description": "A Borrower who can borrow any media and can vouch for Junior Borrowers.",
+    "title": "Adult Borrower",
+    "type": "object",
+    "properties": {
+        "vouchedForJuniorBorrowers": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a JuniorBorrower object",
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "borrower": {
+            "description": "The abstract concept of a Borrower. Actual Borrowers must be either Adult or Junior.",
+            "$ref": "borrower.schema.json"
+        }
+    },
+    "required": [
+        "borrower"
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://telicent.io/specs/canonical/library/media-copy-order.schema.json",
+    "copyright": "Copyright © 2026 Telicent Ltd",
+    "title": "Media Copy Order",
+    "type": "object",
+    "properties": {
+        "copy_count": {
+            "type": "integer"
+        },
+        "date_ordered": {
+            "type": "string"
+        },
+        "orderByLibrarian": {
+            "description": "The URI of a Librarian object",
+            "type": "string",
+            "format": "uri"
+        },
+        "wasOrderForMediaCopies": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a MediaCopy object",
+                "type": "string",
+                "format": "uri"
+            }
+        }
+    },
+    "required": [
+        "copy_count",
+        "date_ordered",
+        "wasOrderForMediaCopies"
+    ]
+}

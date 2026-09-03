@@ -1,0 +1,9 @@
+{
+    "description": "The types of MediaTitle that the library holds.",
+    "type": "string",
+    "enum": [
+        "BOOK",
+        "VIDEO",
+        "AUDIO"
+    ]
+}

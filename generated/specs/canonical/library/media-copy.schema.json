@@ -1,0 +1,45 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://telicent.io/specs/canonical/library/media-copy.schema.json",
+    "copyright": "Copyright © 2026 Telicent Ltd",
+    "description": "An actual copy of a MediaTitle that can be borrowed.",
+    "title": "Media Copy",
+    "type": "object",
+    "properties": {
+        "date_acquired": {
+            "type": "string"
+        },
+        "wasBorrowedByBorrowers": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a Borrower object",
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "loans": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a Loan object",
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "mediaTitle": {
+            "description": "The URI of a MediaTitle object",
+            "type": "string",
+            "format": "uri"
+        },
+        "wasOrderedByMediaCopyOrder": {
+            "description": "The URI of a MediaCopyOrder object",
+            "type": "string",
+            "format": "uri"
+        }
+    },
+    "required": [
+        "date_acquired",
+        "wasOrderedByMediaCopyOrder"
+    ]
+}

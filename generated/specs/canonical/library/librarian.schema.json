@@ -1,0 +1,53 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://telicent.io/specs/canonical/library/librarian.schema.json",
+    "copyright": "Copyright © 2026 Telicent Ltd",
+    "description": "A Librarian who can order copies of MediaTitles and may act as a manager or mentor for other librarians.",
+    "title": "Librarian",
+    "type": "object",
+    "properties": {
+        "managesLibrarians": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a Librarian object",
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "isManagedByLibrarian": {
+            "description": "The URI of a Librarian object",
+            "type": "string",
+            "format": "uri"
+        },
+        "isMentoredByLibrarian": {
+            "description": "The URI of a Librarian object",
+            "type": "string",
+            "format": "uri"
+        },
+        "mentorsLibrarians": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a Librarian object",
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "placedMediaCopyOrders": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a MediaCopyOrder object",
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "person": {
+            "$ref": "../personal-details/person.schema.json"
+        }
+    },
+    "required": [
+        "person"
+    ]
+}

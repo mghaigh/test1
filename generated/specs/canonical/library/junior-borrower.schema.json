@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://telicent.io/specs/canonical/library/junior-borrower.schema.json",
+    "copyright": "Copyright © 2026 Telicent Ltd",
+    "description": "A Borrower who cannot borrow certain Media Titles and a limited number of Media Copies.",
+    "title": "Junior Borrower",
+    "type": "object",
+    "properties": {
+        "dob": {
+            "description": "The Date of Birth (DOB) of this Junior Borrower",
+            "type": "string"
+        },
+        "wasVouchedForByAdultBorrower": {
+            "description": "The URI of a AdultBorrower object",
+            "type": "string",
+            "format": "uri"
+        },
+        "borrower": {
+            "description": "The abstract concept of a Borrower. Actual Borrowers must be either Adult or Junior.",
+            "$ref": "borrower.schema.json"
+        }
+    },
+    "required": [
+        "dob",
+        "wasVouchedForByAdultBorrower",
+        "borrower"
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://telicent.io/specs/canonical/personal-details/person.schema.json",
+    "copyright": "Copyright © 2026 Telicent Ltd",
+    "title": "Person",
+    "type": "object",
+    "properties": {
+        "surname": {
+            "type": "string"
+        },
+        "given_name": {
+            "type": "string"
+        },
+        "currentlyLivesAtAddress": {
+            "description": "The URI of a Address object",
+            "type": "string",
+            "format": "uri"
+        }
+    },
+    "required": [
+        "surname",
+        "given_name",
+        "currentlyLivesAtAddress"
+    ]
+}

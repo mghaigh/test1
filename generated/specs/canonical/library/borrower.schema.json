@@ -1,0 +1,61 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://telicent.io/specs/canonical/library/borrower.schema.json",
+    "copyright": "Copyright © 2026 Telicent Ltd",
+    "description": "The abstract concept of a Borrower. Actual Borrowers must be either Adult or Junior.",
+    "title": "Borrower",
+    "type": "object",
+    "properties": {
+        "reservedMediaTitles": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a MediaTitle object",
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "reservations": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a Reservation object",
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "borrowedMediaCopies": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a MediaCopy object",
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "loans": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a Loan object",
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "previouslyLivedAtAddresses": {
+            "description": "An array of URI",
+            "type": "array",
+            "items": {
+                "description": "The URI of a Address object",
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "person": {
+            "$ref": "../personal-details/person.schema.json"
+        }
+    },
+    "required": [
+        "person"
+    ]
+}

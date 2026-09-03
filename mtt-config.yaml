@@ -1,0 +1,57 @@
+modelFileURI: "${REPO_BASE}/library/library.xml"
+modelConfig:
+  packageNames:
+    typesPackage: "library"
+    queriesPackage: "interfaces"
+  defaults:
+    classDefaults:
+      classActions:
+        - CREATE
+        - READ
+      highInstanceCount: false
+      implementNode: true
+      immutable: false
+dependencies:
+  "Personal Details":
+    modelFileURI: "${REPO_BASE}/personal-details/${MTT_MODEL_FILE}"
+    version: "1.0.0"
+  "Core Types":
+    modelFileURI: "${REPO_BASE}/core-types/${MTT_MODEL_FILE}"
+    version: "1.0.0"
+loader:
+  loaderURL: "http://localhost:7010"
+  configFileURI: "${REPO_BASE}/common-config/config/loaders/ea-xmi/config.yaml"
+generators:
+  #  AOCO:
+  - generatorURL: "http://localhost:9015"
+    configFileURI: "${REPO_BASE}/common-config/config/generators/aoco/config.yaml"
+  # "Elastic Mapper":
+  - generatorURL: "http://localhost:9005"
+    configFileURI: "${REPO_BASE}/common-config/config/generators/elastic-mapper/config.yaml"
+  #  GraphQL:
+  - generatorURL: "http://localhost:9025"
+    configFileURI: "${REPO_BASE}/common-config/config/generators/graphql/config.yaml"
+  #  MkDocs:
+  - generatorURL: "http://localhost:9020"
+    configFileURI: "${REPO_BASE}/common-config/config/generators/mkdoc/config.yaml"
+  #  OpenAPI:
+  - generatorURL: "http://localhost:9010"
+    configFileURI: "${REPO_BASE}/common-config/config/generators/openapi/config.yaml"
+  #  ProtoBuf:
+  - generatorURL: "http://localhost:9045"
+    configFileURI: "${REPO_BASE}/common-config/config/generators/protobuf/config.yaml"
+  #  Canonical:
+  - generatorURL: "http://localhost:9050"
+    configFileURI: "${REPO_BASE}/common-config/config/generators/canonical/config.yaml"
+
+    #  oml:
+  #    generatorURL: "http://localhost:9030"
+  #    configFileURI: "${REPO_BASE}/common-config/config/generators/oml/config.yaml"
+  #  telematics:
+  #    generatorURL: "http://localhost:9040"
+  #    configFileURI: "${REPO_BASE}/common-config/config/generators/telematics/config.yaml"
+  #  Reversed:
+  - generatorURL: "http://localhost:9035"
+    configFileURI: "${REPO_BASE}/common-config/config/generators/reversed/config.yaml"
+
+# network location format "nuc/sambashare/models/library/config/generators/aoco/aoco.yaml"

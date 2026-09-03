@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://telicent.io/specs/canonical/library/reservation.schema.json",
+    "copyright": "Copyright © 2026 Telicent Ltd",
+    "description": "The Reservation of a Media Title, independent of which actual copy is subsequently loaned.",
+    "title": "Reservation",
+    "type": "object",
+    "properties": {
+        "date_reserved": {
+            "type": "string"
+        },
+        "borrower": {
+            "description": "The URI of a Borrower object",
+            "type": "string",
+            "format": "uri"
+        },
+        "mediaTitle": {
+            "description": "The URI of a MediaTitle object",
+            "type": "string",
+            "format": "uri"
+        }
+    },
+    "required": [
+        "date_reserved",
+        "borrower",
+        "mediaTitle"
+    ]
+}
